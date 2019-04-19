@@ -5,8 +5,21 @@ metadata:
 spec:
   containers:
     - name: nginx
+      resources:
+        requests:
+          cpu: "500m"
+          memory: "128Mi"
+        limits:
+          cpu: "1000m"
+          memory: "256Mi"
       image: nginx
       ports:
-       - containerPort: 80
-         name: http
-         protocol: TCP
+      - containerPort: 80
+        name: http
+        protocol: TCP
+      livenessProbe:
+        httpGet:
+          port: 80
+          path: /
+        failureThreshold: 5
+        periodSeconds: 10
